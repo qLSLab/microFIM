@@ -1,2 +1,2 @@
 # microFim
-microfim is a Python library for the integration of Frequent Itemset Mining into microbiome pattern analysis.
+Frequent Item Set Mining and Association Rule Induction for Microbiome Patterns Evaluation in Python.
