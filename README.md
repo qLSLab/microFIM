@@ -8,8 +8,11 @@ Frequent Item Set Mining and Association Rule Induction for Microbiome Patterns 
 ### Set microFim
 
 ## Preparing input files
+### Guidelines 
 * '#SampleID' name of the first row of sample list file
 * '#ID' name of the first column of otu/taxa table
+
+### Input templates
 
 ## Usage
 
