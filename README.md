@@ -3,6 +3,8 @@ Frequent Item Set Mining and Association Rule Induction for Microbiome Patterns 
 
 ## Installation
 
+### Installing microFim
+
 ### Set microFim
 
 ## Preparing input files
