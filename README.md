@@ -22,3 +22,7 @@ Frequent Item Set Mining and Association Rule Induction for Microbiome Patterns 
 ### Interactive mode
 
 ### Pre-set and semi-interactive scripts
+
+## Citations
+* tool
+* DWTP data
