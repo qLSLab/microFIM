@@ -1,20 +1,27 @@
 import os
 import pandas as pd
+import readline
 import functions.microdir as md
+
 
 """ This script can be used to filter your otu/taxa table based on a list of samples.
 Files required and mandatory instructions:
-* otu/taxa table - the column name of OTU or TAXA must be '#ID'
+* otu/esv/taxa table - the column name of OTU or TAXA must be '#ID'
 * sample list  - the first row of your sample list must be '#SampleID'
 
 The script will ask you to set the input directory and the two files mentioned -
-otu/taxa table and sample list. The format of the file does not matter at this stage,
+otu/esv/taxa table and sample list. The format of the file does not matter at this stage,
 the script will ask you the type of separator.
 
 The output file will be a filtered CSV file saved into the input directory
 (in order to allow subsequent analysis).
 
 """
+
+# set autcompletion
+readline.set_completer_delims(' \t\n=')
+readline.parse_and_bind("tab: complete")
+
 
 # set dirs
 data_dir = input('Do you want to change input directory?\nType Y or N: ')
@@ -33,27 +40,38 @@ else:
 
 # list files of inputs dir
 files = os.listdir(input_dir)
-print('Here is the lis of files in the input directory: \n\n')
+print('Here is the list of files in the input directory: \n\n')
 print(files, '\n\n')
 
 
+# set input dir and autcompletion
+os.chdir(input_dir)
+readline.set_completer_delims(' \t\n=')
+readline.parse_and_bind("tab: complete")
+
+
+# filtering options
+
 # import sample list
 sample_list = input('Insert list of samples to filter your table:\n')
+
+## INSERIRE OPZIONE DI NON FILTERING ##
+
 print(f'> You entered: {sample_list}\n\n')
 
 # import taxa/otu_table
 data_table = input('Insert your data table:\n')
 print(f'> You entered: {data_table}\n\n')
 
-# # sep
-# sep = input('Declare the column separate of your otu/taxa table:\n \
-# E.g. , for commas\n')
-# print(f'> You entered: {sep}\n\n')
+# sep
+sep = input('Declare the column separate of your otu/taxa table:\n \
+E.g. , for commas\n')
+print(f'> You entered: {sep}\n\n')
 
 
 # filter oty/taxa table based on sample list
 df1 = pd.read_csv(os.path.join(input_dir, sample_list), header=0, index_col=None)
-df2 = pd.read_csv(os.path.join(input_dir, data_table), header=0, index_col=None)
+df2 = pd.read_csv(os.path.join(input_dir, data_table), sep=sep, header=0, index_col=None, engine='python')
 
 
 # convert sample_list into a list
