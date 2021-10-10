@@ -17,7 +17,7 @@ Each module is available by command-line or interactive dashboard.
 3. We suggest to install Conda or Mininconda to run microFIM - here you can find how to install Miniconda3: https://conda.io/projects/conda/en/latest/user-guide/install/index.html
 
 4. Once Miniconda is installed, create the conda environment with the command below, modifying 'myExTaxsIenv' with the name that you prefer: \
-`conda create --name microFIM --file requirements.txt --channel default --channel etetoolkit --channel plotly`
+`conda create --name microFIM --file requirements.txt`
 
 5. (Optional) Test microFIM before starting with your analysis - see Tutorial section for details
 
