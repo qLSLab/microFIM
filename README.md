@@ -10,7 +10,7 @@ Each module is available by command-line or interactive dashboard.
 ## Installation
 1. Download Python 3 if you haven’t already at https://www.python.org/
 2. Clone github repository (link: https://github.com/qLSLab/microFim.git) and:
-    * Download [ZIP](https://github.com/qLSLab/microFim/archive/master.zip) from microFIM github home page, then decompress it\
+    * Download ZIP from microFIM github home page, then decompress it\
     or 
     * Use git from command line: `git clone https://github.com/qLSLab/microFim.git`
 
