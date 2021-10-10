@@ -20,14 +20,16 @@ Each module is available by command-line or interactive dashboard.
 
 5. (Optional) Test microFIM before starting with your analysis - see Tutorial section for details
 
-## Usage and structure
+## Usage
 * Guided scripts
 * Python functions
 
-### Input files format
+### Input/output files format
 * #ID
 * #SampleID
 * .csv/.tsv
+
+### Structure
 
 ## Cite us
 Link
