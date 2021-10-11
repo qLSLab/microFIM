@@ -31,7 +31,7 @@ In the taxa table, the column describing taxa must be filled as #ID. You can ren
 or a text editor
 * #SampleID \
 If you want to filter your taxa table with a list of samples or metadata file, the column name must be filled as #SampleID 
-* .csv/.tsv \
+* CSV/TSV format \
 Taxa table, metadata file and sample list file must be provided as CSV or TSV. Template file is already defined as CSV in input_templates directory on this Github repository.
 
 ### Structure
