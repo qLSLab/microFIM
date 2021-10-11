@@ -25,7 +25,7 @@ Each module is available by command-line or interactive dashboard.
 * Python functions
 
 ### Input/output files format
-* #ID
+* #ID: 'sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE'
 * #SampleID
 * .csv/.tsv
 
