@@ -35,6 +35,12 @@ If you want to filter your taxa table with a list of samples or metadata file, t
 Taxa table, metadata file and sample list file must be provided as CSV or TSV. Template file is already defined as CSV in input_templates directory on this Github repository.
 
 ### Structure
+* Step 1:
+* Step 2:
+* Step 3:
+* Step 4:
+* Step 5:
+* Step 6:
 
 ## Cite us
 Link
