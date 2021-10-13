@@ -1,5 +1,4 @@
 # microFIM
-=======
 
 ![alt text](microFIM_framework.jpg)
 
