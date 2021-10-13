@@ -4,9 +4,7 @@
 
 ## Overview
 microFim is a Python tool for the integration of Frequent Itemset Mining into microbiome pattern analysis.
-The tool is written as Python library, download with all its requirements from conda-forge website (link). 
-It is built by two main modules, the tool to calculate patterns and rules and the microbiome visualization module.
-Each module is available by command-line or interactive dashboard.
+(tbd)
 
 ## Installation
 1. Download Python 3 if you haven’t already at https://www.python.org/
