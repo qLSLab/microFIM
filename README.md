@@ -1,4 +1,7 @@
 # microFIM
+=======
+
+![alt text](https://github.com/qLSLab/microfim/blob/master/microFIM_framework.jpg)
 
 ## Overview
 microFim is a Python tool for the integration of Frequent Itemset Mining into microbiome pattern analysis.
