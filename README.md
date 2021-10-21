@@ -35,12 +35,12 @@ If you want to filter your taxa table with a list of samples or metadata file, t
 Taxa table, metadata file and sample list file must be provided as CSV or TSV. Template file is already defined as CSV in input_templates directory on this Github repository.
 
 ### Structure
-* Step 1:
-* Step 2:
-* Step 3:
-* Step 4:
-* Step 5:
-* Step 6:
+* Step 1: microbiome data as taxa table importing and filtering;
+* Step 2: conversion into a transactional dataset;
+* Step 3: pattern calculation via a template file to be filled;
+* Step 4: calculation of additional interest measures;
+* Step 5: creation of the pattern table;
+* Step 6: visualization of results.
 
 ## Cite us
 Link
