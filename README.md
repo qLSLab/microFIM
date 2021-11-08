@@ -27,13 +27,14 @@ microFIM can be used via guided scripts or python functions. \
 Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for complete tutorials for both usage.
 Below, recomendations about input files format and explanation about the structure and functions module available.
 
-### Input/output files format
+### Input/output microFIM files
 microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; Gonzales et al., 2018 [[1]](#1)) or in MLrepo (https://knights-lab.github.io/MLRepo/; Vangay et al., 2019 [[2]](#2)).
 Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; Bolyen et al., 2019 [[3]](#3)).
 
 ![alt text](taxa_table_example.png)
 
-Before starting with microFIM, be sure to set the following requirements:
+#### Input requirements
+Before starting with microFIM, be sure to set the following requirements for **inputs**:
 * #ID \
 In the taxa table, the column describing taxa must be filled as #ID. You can rename it with `sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE` \
 or a text editor;
@@ -41,6 +42,12 @@ or a text editor;
 If you want to filter your taxa table with a list of samples or metadata file, the column name must be filled as #SampleID; 
 * CSV format \
 Taxa table, metadata file and sample list file must be provided as CSV files. Template file is already defined as CSV in [input_templates](input_templates) directory.
+
+#### Output description
+* transaction file
+* pattern file as CSV (also with additional metrics)
+* SVG and HTML figures
+
 
 ### Structure
 Guided scripts are defined in **6 main phases**, also represented in [microFIM_framework](microFIM_framework.jpg) figure.
