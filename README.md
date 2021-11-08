@@ -21,8 +21,8 @@ microFim is a Python tool for the integration of Frequent Itemset Mining into mi
 5. (Optional) Test microFIM before starting with your analysis - see Tutorial section for details
 
 ## Usage
-* Guided scripts
-* Python functions
+microFIM can be used via guided scripts or python functions. \
+Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for complete tutorials for both usage.
 
 ### Input/output files format
 Before starting, be sure to set the following requirements:
