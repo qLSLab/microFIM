@@ -33,7 +33,7 @@ Considering microbiome analysis, QIIME2 provide complete frameworks and scripts 
 
 ![alt text](taxa_table_example.png)
 
-#### Input requirements
+#### Input description
 Before starting with microFIM, be sure to set the following requirements for **inputs**:
 * #ID \
 In the taxa table, the column describing taxa must be filled as #ID. You can rename it with `sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE` \
