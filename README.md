@@ -28,8 +28,8 @@ Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for co
 Below, recomendations about input files format and explanation about the structure and functions module available.
 
 ### Input/output files format
-microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; Gonzales et al., 2018) or in MLrepo (https://knights-lab.github.io/MLRepo/; Vangay et al., 2019).
-Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; Bolyen et al., 2019).
+microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; Gonzales et al., 2018 [[1]](#1)) or in MLrepo (https://knights-lab.github.io/MLRepo/; Vangay et al., 2019 [[2]](#2)).
+Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; Bolyen et al., 2019 [[3]](#3)).
 
 ![alt text](taxa_table_example.png)
 
@@ -55,3 +55,11 @@ In particular:
 
 ## Cite us
 Link
+
+## References
+<a id="1">[1]</a> 
+Gonzalez, A., Navas-Molina, J. A., Kosciolek, T., McDonald, D., Vázquez-Baeza, Y., Ackermann, G., ... & Knight, R. (2018). Qiita: rapid, web-enabled microbiome meta-analysis. Nature methods, 15(10), 796-798.
+<a id="2">[2]</a> 
+Bolyen, E., Rideout, J. R., Dillon, M. R., Bokulich, N. A., Abnet, C. C., Al-Ghalith, G. A., ... & Caporaso, J. G. (2019). Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. Nature biotechnology, 37(8), 852-857.
+<a id="3">[3]</a> 
+Vangay, P., Hillmann, B. M., & Knights, D. (2019). Microbiome Learning Repo (ML Repo): A public repository of microbiome regression and classification tasks. Gigascience, 8(5), giz042.
