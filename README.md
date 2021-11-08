@@ -25,18 +25,22 @@ Below, installation, instructions of use and tutorials are provided.
 ## Usage
 microFIM can be used via guided scripts or python functions. \
 Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for complete tutorials for both usage.
+Below, recomendations about input files format and explanation about the structure and functions module available.
 
 ### Input/output files format
 Before starting, be sure to set the following requirements:
 * #ID \
 In the taxa table, the column describing taxa must be filled as #ID. You can rename it with `sed -i 's/SEARCH_REGEX/REPLACEMENT/g' INPUTFILE` \
-or a text editor
+or a text editor;
 * #SampleID \
-If you want to filter your taxa table with a list of samples or metadata file, the column name must be filled as #SampleID 
-* CSV/TSV format \
-Taxa table, metadata file and sample list file must be provided as CSV or TSV. Template file is already defined as CSV in input_templates directory on this Github repository.
+If you want to filter your taxa table with a list of samples or metadata file, the column name must be filled as #SampleID; 
+* CSV format \
+Taxa table, metadata file and sample list file must be provided as CSV files. Template file is already defined as CSV in [input_templates](input_templates) directory.
 
 ### Structure
+Guided scripts are defined in **6 main phases**, also represented in [microFIM_framework](microFIM_framework.jpg) figure.
+In addition, we provided python function modules that follow the previous structure. Here we describe the main steps and their respectives modules.
+In particular:
 * Step 1: microbiome data as taxa table importing and filtering;
 * Step 2: conversion into a transactional dataset;
 * Step 3: pattern calculation via a template file to be filled;
