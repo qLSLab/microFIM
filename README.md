@@ -28,10 +28,10 @@ Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for co
 Below, recomendations about input files format and explanation about the structure and functions module available.
 
 ### Input/output files format
-microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; ) or in MLrepo (https://knights-lab.github.io/MLRepo/; ).
-Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; ).
+microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; Gonzales et al., 2018) or in MLrepo (https://knights-lab.github.io/MLRepo/; Vangay et al., 2019).
+Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; Bolyen et al., 2019).
 
-![alt text](microFIM_framework.jpg)
+![alt text](taxa_table_example.png)
 
 Before starting with microFIM, be sure to set the following requirements:
 * #ID \
