@@ -8,7 +8,7 @@ The tool is developed to create a bridge between microbial ecology researchers a
 
 ### ARM in a nutshel
 (tbd)
-[arm microbiome applications](arm_microbiome_applications.png)
+![alt text](arm_microbiome_applications.png)
 
 
 Below, installation, instructions of use and tutorials are provided.
