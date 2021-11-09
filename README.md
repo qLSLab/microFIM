@@ -44,18 +44,25 @@ If you want to filter your taxa table with a list of samples or metadata file, t
 Taxa table, metadata file and sample list file must be provided as CSV files. Template file is already defined as CSV in [input_templates](input_templates) directory.
 
 #### Output description
-* transaction file
-* pattern file as CSV (also with additional metrics)
-* SVG and HTML figures
+* transactional file: taxa table is converted into a transactional file (see Figure below for an example), where each row represents a sample with the list of taxa it contains;
+* pattern table as CSV: after pattern extraction, a presence-absence matrix is calculated, considering for each pattern if it is present or not in each sample - the results is similar to a taxa table, where the first column contains the patterns while the others describe in which sample are found. Columns considering the length of the patterns and their support are reported. Additional metrics can be also added (see Next section for details) - see the Figure below for an example;
+* plots as SVG and HTML: visualizations as barplot, scatter plot and heatmap can be generated (see Next section for details)
 
 
 ### Structure
 Guided scripts are defined in **6 main phases**, also represented in [microFIM_framework](microFIM_framework.jpg) figure.
-In addition, we provided python function modules that follow the previous structure. Here we describe the main steps and their respectives modules.
+In addition, we provided python function modules thascript_0_filtertable.pyt follow the previous structure. Here we describe the main steps and their respectives modules. For complete tutorials, see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb). 
 In particular:
-* Step 1: microbiome data as taxa table importing and filtering;
-* Step 2: conversion into a transactional dataset;
-* Step 3: pattern calculation via a template file to be filled;
+* Step 1: **importing and filtering taxa table** - in the first phase you can filter your taxa table using the metadata file (via #SampleID column). 
+If you want to run microFIM on your taxa table without filtering, go to the next step.
+The script to filter is [script_0_filtertable.py](script_0_filtertable.py). 
+* Step 2: **conversion into a transactional dataset** - taxa table (CSV) must be converted in a transactional file (see the previous description for details). The script to convert it [script_1_tableconversion.py](script_1_tableconversion.py).
+* Step 3: **patterns extraction** - microFIM extract patterns from the transactional file (see previous step). To run [script_2_microfimcalculation.py](script_2_microfimcalculation.py), files with parameters must be given as input, you can find examples to be filled in [template_inputs](template_inputs).
+The parameters to be filled are: 
+** minimum support;
+** minimum length;
+** maximum length.
+We recomment to keep the option *report = [asS* in order to correctly used our scripts.
 * Step 4: calculation of additional interest measures;
 * Step 5: creation of the pattern table;
 * Step 6: visualization of results.
