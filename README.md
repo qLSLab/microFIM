@@ -6,6 +6,9 @@
 microFim (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis.
 The tool is developed to create a bridge between microbial ecology researchers and ARM technique, integrating the common microbiome outputs (in particular, OTU and taxa table), metadata files typically used in microbiome analysis, and it provides similar microbiome outputs that help scientists to integrate ARM in microbiome applications. In detail, microFIM generates the **pattern table** - an OTU table built with the patterns extracted via ARM (see Figure above as an example)- that can be used to further statistical analysis, as biodiversity analysis based on distance metrics, and microbiome visualization strategies - as pattern-based heatmaps.
 
+### ARM in a nutshel
+(tbd)
+
 Below, installation, instructions of use and tutorials are provided.
 
 ## Installation
@@ -56,16 +59,21 @@ In particular:
 * Step 1: **importing and filtering taxa table** - in the first phase you can filter your taxa table using the metadata file (via #SampleID column). 
 If you want to run microFIM on your taxa table without filtering, go to the next step.
 The script to filter is [script_0_filtertable.py](script_0_filtertable.py). 
+
 * Step 2: **conversion into a transactional dataset** - taxa table (CSV) must be converted in a transactional file (see the previous description for details). The script to convert it [script_1_tableconversion.py](script_1_tableconversion.py).
+
 * Step 3: **patterns extraction** - microFIM extract patterns from the transactional file (see previous step). To run [script_2_microfimcalculation.py](script_2_microfimcalculation.py), files with parameters must be given as input, you can find examples to be filled in [template_inputs](template_inputs).
 The parameters to be filled are: 
-** minimum support;
-** minimum length;
-** maximum length.
+   * minimum support;
+   * minimum length;
+   * maximum length.
 We recomment to keep the option *report = [asS* in order to correctly used our scripts.
-* Step 4: calculation of additional interest measures;
-* Step 5: creation of the pattern table;
-* Step 6: visualization of results.
+
+* Step 4: **integration of additional interest measures** - microFIM provides additional interest metrics to evaluate patterns, in particular all-Confidence is added. However, other metrics can be added. For each pattern, the value of the interes measure is added in a separate column, in order to guarantee further analysis and filtering steps. The script to calculate additional interest measures is [script_3_additionalmeasures.py](script_3_additionalmeasures.py). 
+
+* Step 5: **creation of the pattern table** - similar to a taxa table, the pattern table describe the presence-absence of a pattern in the samples analysed. A CSV file is obtained. The script to obtain the pattern table is [script_4_generatepatterntable.py](script_4_generatepatterntable.py). 
+
+* Step 6: **visualization of results** - from the pattern table, plot can be obtained. In particular, bar plot, scatter plot and heatmap are available. The standard output is SVG and HTML format. The script to generate visualizations is [script_5_generateplots.py](script_5_generateplots.py).
 
 ## Cite us
 Link
