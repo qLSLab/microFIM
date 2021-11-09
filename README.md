@@ -12,12 +12,12 @@ microFIM is implemeted to integrate ARM analysis in 16S rRNA microbiome analysis
 
 ![alt text](arm_microbiome_applications.png)
 
-microFIM, in particular, supports pattern mining phases, in order to extract interesting patterns from 16S rRNA microbiome analysis.
+microFIM, in particular, supports **pattern mining phases**, in order to extract interesting patterns from 16S rRNA microbiome analysis.
 Details about ARM approach are available in the work of Naulearts et al., 2016 (ref) and Agrawal et al., 1993 (ref).
 
 microFIM framework is developed in **6 main steps** (see the next sections for details and the main figure for an **overview**) and it integrated the following metrics:
 
-* to extract patterns, the mandatory parameters (also available in [input_templates](input_templates) directory are the following:
+* to extract patterns, the mandatory parameters (also available in [input_templates](input_templates) directory) are the following:
    * minimum support to be considered to extract interesting patterns, intended as Support = frq(X,Y)/N, e.g. the frequency of the pattern in the dataset;
    * minimum length, intended as the minimum number of elements that composed the patterns;
    * maximum length, intended as the maximum number of elements that composed the patterns.
