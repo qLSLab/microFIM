@@ -1,7 +1,6 @@
 import pandas as pd
 import sys
 import csv
-#import fimLib as fil # usare l'altra
 import functions.microfim as mf
 import functions.microdir as md
 import numpy as np
@@ -90,4 +89,4 @@ output = 'transactions_' + file_name[0]
 print(f'\n\n> Otu table converted!\n \
 Now run from your command line in {input_dir}:\n\n \
 sed -i -e "s/,/ /g" {output}\n\n \
-rm {output}-e\n\n')
+rm {output}-e # if necessary\n\n')
