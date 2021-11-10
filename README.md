@@ -34,6 +34,7 @@ microFIM framework is developed in **6 main steps** (see the next sections for d
       all-confidence(X) = min{P(X|Y),P(Y|X)}
    
        All-confidence means that all rules which can be generated from itemset X have at least a confidence of all-confidence(X). For details, see (Omiecinski et    al., 2003; Xiong et al., 2006).
+    Example: Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’. For example, a pattern X is composed of 3 elements that, considering the entire dataset, have the following support threshold: 0.3, 0.6 and 0.8. Overall, the pattern X has a support of 0.3. All-confidence will be calculated as the ratio between the support of X - 0.3 - and the higher support within X - 0.8, resulting in 0.37. All-confidence, in this way, is defined as the smallest confidence of all rules which can be produced from a pattern, i.e., all rules produced from a pattern will have a confidence greater or equal to its all-confidence value (Tan et al., 2016; Omiecinski et al., 2003). In detail, confidence is an indication of how often a rule has been found to be true, so it is considered as a measure of rule reliability (Hashler, 2005; Hashler, 2011; Naulaerts, 2015).
 
 Below, installation, instructions of use and tutorials are provided.
 
