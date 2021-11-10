@@ -68,24 +68,23 @@ print(f'> You entered: {otu_table}\n\n')
 trans_file = input("Insert your transactional file:\n\n")
 print(f'> You entered: {trans_file}\n\n')
 
-# input_file = 'df_tutorial_DWTP_classic_itemsets.csv'
-# trans_file = 'tutorial_DWTP_taxa_table_transactions'
-# otu_table = 'tutorial_DWTP_taxa_table.csv'
 
 df = pd.read_csv(os.path.join(out_dir, input_file), header=0, index_col=None)
 print(df)
 n_patterns = df.shape[0]
 
 #
-df_otu = pd.read_csv(os.path.join(input_dir, otu_table), header=0, index_col=None)
+df_otu = pd.read_csv(os.path.join(input_dir, otu_table), header=0, sep='\t', index_col=None)
 
-# convert to a list
-list_of_string = df_otu['#ID'].tolist()
-print(list_of_string)
-for i in list_of_string:
-    i = i.lower()
+print(df_otu)
 
-#print(list_of_string)
+# convert to a list (comment 8/11)
+# list_of_string = df_otu['#ID'].tolist()
+# print(list_of_string)
+# for i in list_of_string:
+#     i = i.lower()
+
+# print(list_of_string)
 
 
 # calculate ids frequency and create a dict
@@ -108,8 +107,6 @@ number_of_lines = float(len(lines_in_file))
 #print(number_of_lines)
 
 
-###
-
 data_allc_update = mim.all_confidence(df, frequency, number_of_lines)
 #print(data_allc_update)
 
@@ -122,6 +119,4 @@ data_crosssupp_update = mim.cross_support(df, frequency, number_of_lines)
 file_name = input('Insert your output file name (without extensions):\n')
 print(f'> You entered: {file_name}\n\n')
 
-#data_crosssupp_update.to_csv('df_tutorial_DWTP_closed_addm_itemsets.csv')
-#data_crosssupp_update.to_csv(os.path.join(out_dir, 'df_tutorial_DWTP_classic_addm_itemsets.csv'))
 data_crosssupp_update.to_csv(os.path.join(out_dir, file_name + '.csv'), index=False)
