@@ -107,17 +107,17 @@ Link
 
 ## References
 <a id="1">[1]</a> 
-Naulaerts, S., Meysman, P., Bittremieux, W., Vu, T. N., Vanden Berghe, W., Goethals, B., & Laukens, K. (2015). A primer to frequent itemset mining for bioinformatics. Briefings in bioinformatics, 16(2), 216-231.
+Naulaerts, S., Meysman, P., Bittremieux, W., Vu, T. N., Vanden Berghe, W., Goethals, B., & Laukens, K. (2015). A primer to frequent itemset mining for bioinformatics. Briefings in bioinformatics, 16(2), 216-231. \
 <a id="2">[2]</a> 
-Agrawal, R., Imieliński, T., & Swami, A. (1993, June). Mining association rules between sets of items in large databases. In Proceedings of the 1993 ACM SIGMOD international conference on Management of data (pp. 207-216).
+Agrawal, R., Imieliński, T., & Swami, A. (1993, June). Mining association rules between sets of items in large databases. In Proceedings of the 1993 ACM SIGMOD international conference on Management of data (pp. 207-216). \
 <a id="1">[3]</a> 
-Omiecinski, E. R. (2003). Alternative interest measures for mining associations in databases. IEEE Transactions on Knowledge and Data Engineering, 15(1), 57-69.
+Omiecinski, E. R. (2003). Alternative interest measures for mining associations in databases. IEEE Transactions on Knowledge and Data Engineering, 15(1), 57-69. \
 <a id="1">[4]</a> 
-Xiong, H., Tan, P. N., & Kumar, V. (2006). Hyperclique pattern discovery. Data mining and knowledge discovery, 13(2), 219-242.
+Xiong, H., Tan, P. N., & Kumar, V. (2006). Hyperclique pattern discovery. Data mining and knowledge discovery, 13(2), 219-242. \
 <a id="1">[5]</a> 
-Tan, P. N., Kumar, V., & Srivastava, J. (2002, July). Selecting the right interestingness measure for association patterns. Proc. ACM SIGKDD Int. (pp. 32-41). doi: 10.1145/775047.775053
+Tan, P. N., Kumar, V., & Srivastava, J. (2002, July). Selecting the right interestingness measure for association patterns. Proc. ACM SIGKDD Int. (pp. 32-41). \
 <a id="1">[6]</a> 
-Hahsler, M., Chelluboina, S., Hornik, K., & Buchta, C. (2011). The arules R-package ecosystem: analyzing interesting patterns from large transaction data sets. The Journal of Machine Learning Research, 12, 2021-2025.
+Hahsler, M., Chelluboina, S., Hornik, K., & Buchta, C. (2011). The arules R-package ecosystem: analyzing interesting patterns from large transaction data sets. The Journal of Machine Learning Research, 12, 2021-2025. \
 <a id="1">[7]</a> 
 Gonzalez, A., Navas-Molina, J. A., Kosciolek, T., McDonald, D., Vázquez-Baeza, Y., Ackermann, G., ... & Knight, R. (2018). Qiita: rapid, web-enabled microbiome meta-analysis. Nature methods, 15(10), 796-798. \
 <a id="2">[8]</a> 
