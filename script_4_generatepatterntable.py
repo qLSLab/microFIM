@@ -61,13 +61,6 @@ sep = input('Declare the column separate of your metadata file:\n \
 E.g. , for commas\n')
 print(f'> You entered: {sep}\n\n')
 
-# itemset_input = 'df_DWTP_aquifer_maximal.csv'
-# trans_input = 'DWTP_genus_aquifer_transactions'
-# metadata_input = 'DWTP_metadata_aquifer.csv'
-
-# DWTP_genus_aquifer.csv
-# DWTP_genus_aquifer_transactions
-# df_DWTP_aquifer_maximal.csv
 
 df = pd.read_csv(os.path.join(out_dir, itemset_input), header=0, index_col=None)
 print(df, '\n')
