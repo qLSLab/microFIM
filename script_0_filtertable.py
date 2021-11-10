@@ -54,9 +54,6 @@ readline.parse_and_bind("tab: complete")
 
 # import sample list
 sample_list = input('Insert list of samples to filter your table:\n')
-
-## INSERIRE OPZIONE DI NON FILTERING ##
-
 print(f'> You entered: {sample_list}\n\n')
 
 # import taxa/otu_table
