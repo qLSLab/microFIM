@@ -14,7 +14,7 @@ microFIM is implemeted to integrate ARM analysis in 16S rRNA microbiome analysis
 ![alt text](arm_microbiome_applications.png)
 
 microFIM, in particular, supports **pattern mining phases**, in order to extract interesting patterns from 16S rRNA microbiome analysis.
-Details about ARM approach are available in the work of Naulearts et al., 2016 ([[1]](#1)) and Agrawal et al., 1993 ([[2]](#2)).
+Details about ARM approach are available in the work of Naulearts et al., 2016 [[1]](#1) and Agrawal et al., 1993 [[2]](#2).
 
 microFIM framework is developed in **6 main steps** (see the next sections for details and the main figure for an **overview**) and it integrated the following metrics:
 
@@ -29,12 +29,12 @@ microFIM framework is developed in **6 main steps** (see the next sections for d
    * number of samples in which the patterns were found.
    
 * interest measures integrated in microFIM framework:
-   * all-confidence - metrics to evaluate 'hypercliques patterns' ([[3]](#3)). Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the     ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’.
+   * all-confidence - metrics to evaluate 'hypercliques patterns' [[3]](#3). Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the     ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’.
    
       all-confidence(X) = min{P(X|Y),P(Y|X)}
    
-       All-confidence means that all rules which can be generated from itemset X have at least a confidence of all-confidence(X). For details, see (Omiecinski et    al., 2003; Xiong et al., 2006).
-    Example: Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’. For example, a pattern X is composed of 3 elements that, considering the entire dataset, have the following support threshold: 0.3, 0.6 and 0.8. Overall, the pattern X has a support of 0.3. All-confidence will be calculated as the ratio between the support of X - 0.3 - and the higher support within X - 0.8, resulting in 0.37. All-confidence, in this way, is defined as the smallest confidence of all rules which can be produced from a pattern, i.e., all rules produced from a pattern will have a confidence greater or equal to its all-confidence value (Tan et al., 2016; Omiecinski et al., 2003). In detail, confidence is an indication of how often a rule has been found to be true, so it is considered as a measure of rule reliability (Hashler, 2005; Hashler, 2011; Naulaerts, 2015).
+       All-confidence means that all rules which can be generated from itemset X have at least a confidence of all-confidence(X). For details, see [[3]](#3)[[4]](#5).
+    Example: Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’. For example, a pattern X is composed of 3 elements that, considering the entire dataset, have the following support threshold: 0.3, 0.6 and 0.8. Overall, the pattern X has a support of 0.3. All-confidence will be calculated as the ratio between the support of X - 0.3 - and the higher support within X - 0.8, resulting in 0.37. All-confidence, in this way, is defined as the smallest confidence of all rules which can be produced from a pattern, i.e., all rules produced from a pattern will have a confidence greater or equal to its all-confidence value [[3]](#3)[[5]](#5). In detail, confidence is an indication of how often a rule has been found to be true, so it is considered as a measure of rule reliability [[1]](#1)[[6]](#6).
 
 Below, installation, instructions of use and tutorials are provided.
 
@@ -58,8 +58,8 @@ Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for co
 Below, recomendations about input files format and explanation about the structure and functions module available.
 
 ### Input/output microFIM files
-microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; Gonzales et al., 2018 [[1]](#1)) or in MLrepo (https://knights-lab.github.io/MLRepo/; Vangay et al., 2019 [[2]](#2)).
-Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; Bolyen et al., 2019 [[3]](#3)).
+microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; [[7]](#7)) or in MLrepo (https://knights-lab.github.io/MLRepo/; [[8]](#8)).
+Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; [[9]](#9)).
 
 ![alt text](taxa_table_example.png)
 
@@ -107,10 +107,20 @@ Link
 
 ## References
 <a id="1">[1]</a> 
+Naulaerts, S., Meysman, P., Bittremieux, W., Vu, T. N., Vanden Berghe, W., Goethals, B., & Laukens, K. (2015). A primer to frequent itemset mining for bioinformatics. Briefings in bioinformatics, 16(2), 216-231.
 <a id="2">[2]</a> 
+Agrawal, R., Imieliński, T., & Swami, A. (1993, June). Mining association rules between sets of items in large databases. In Proceedings of the 1993 ACM SIGMOD international conference on Management of data (pp. 207-216).
 <a id="1">[3]</a> 
+Omiecinski, E. R. (2003). Alternative interest measures for mining associations in databases. IEEE Transactions on Knowledge and Data Engineering, 15(1), 57-69.
+<a id="1">[4]</a> 
+Xiong, H., Tan, P. N., & Kumar, V. (2006). Hyperclique pattern discovery. Data mining and knowledge discovery, 13(2), 219-242.
+<a id="1">[5]</a> 
+Tan, P. N., Kumar, V., & Srivastava, J. (2002, July). Selecting the right interestingness measure for association patterns. Proc. ACM SIGKDD Int. (pp. 32-41). doi: 10.1145/775047.775053
+<a id="1">[6]</a> 
+Hahsler, M., Chelluboina, S., Hornik, K., & Buchta, C. (2011). The arules R-package ecosystem: analyzing interesting patterns from large transaction data sets. The Journal of Machine Learning Research, 12, 2021-2025.
+<a id="1">[7]</a> 
 Gonzalez, A., Navas-Molina, J. A., Kosciolek, T., McDonald, D., Vázquez-Baeza, Y., Ackermann, G., ... & Knight, R. (2018). Qiita: rapid, web-enabled microbiome meta-analysis. Nature methods, 15(10), 796-798. \
-<a id="2">[4]</a> 
+<a id="2">[8]</a> 
 Bolyen, E., Rideout, J. R., Dillon, M. R., Bokulich, N. A., Abnet, C. C., Al-Ghalith, G. A., ... & Caporaso, J. G. (2019). Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. Nature biotechnology, 37(8), 852-857. \
-<a id="3">[5]</a> 
+<a id="3">[9]</a> 
 Vangay, P., Hillmann, B. M., & Knights, D. (2019). Microbiome Learning Repo (ML Repo): A public repository of microbiome regression and classification tasks. Gigascience, 8(5), giz042.
