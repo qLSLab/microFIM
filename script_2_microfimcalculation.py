@@ -136,8 +136,7 @@ else:
     print('Default output directory will be used.')
 
 
-# opening the csv file in 'w+' mode 3022021
-# crea funzione qui x cleaning
+# opening the csv file in 'w+' mode
 file = open(out_dir + '/' + output_file + '.csv', 'w+', newline ='')
 # writing the data into the file
 with file:
@@ -158,6 +157,3 @@ df = mf.itemsets_dataframe(new_out_file)
 df.to_csv(new_out_file, index=False)
 
 print('Results saved!')
-
-
-## remove the second output
