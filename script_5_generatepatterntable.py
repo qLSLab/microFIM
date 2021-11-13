@@ -9,6 +9,16 @@ import functions.microimport as mi
 
 import readline
 
+""" This script can be used to create the pattern table.
+Inputs:
+- pattern results;
+- metadata file;
+- transactional file.
+
+The output will be saved as a CSV dataframe (with and without
+inrerest measures) into input directory.
+"""
+
 # set autcompletion
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
