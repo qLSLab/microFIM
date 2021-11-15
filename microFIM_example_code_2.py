@@ -87,21 +87,11 @@ minsupp, zmin, zmax= mi.itemsets_parameters(data_dir, par_file)
 # FILTER DATA TABLE VIA SAMPLE METADATA
 filter_table = mf.filter_data_table(metadata, data_table)
 
-
-# import transactions and file with paramaters
-t = mf.read_transaction(os.path.join(data_dir, trans_file))
-print(t)
-
-minsupp, zmin, zmax= mi.itemsets_parameters(data_dir, par_file)
-
-
 # calculate patterns
 results = mf.fim_calculation(t, to_calculate, minsupp, zmin, zmax)
 
-
 # write patterns results
 file, out_file, new_out_file = mf.write_results(results, data_dir, output_file)
-
 
 # convert itemsets results into a dataframe
 df = mf.itemsets_dataframe(new_out_file)
