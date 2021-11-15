@@ -4,22 +4,32 @@ import pandas as pd
 import numpy as np
 import fim
 import os
+import csv
+import functions.microimport as mi
+import functions.microinterestmeasures as mim
 
+""" Functions to run main microFIM functions. For simpilicty, to use this functions
+into a Python script or Python Interpreter, import functions.microfim as mf """
 
 
 ### MANAGING AND CONVERTING FILES ###
-def obtain_sample_list():
-    """ Create sample list from metadata file"""
-    return sample_list
 
-def filter_table():
-    return f_table
+def filter_data_table(metadata, data_table):
+    """
+    """
+    samples = metadata['#SampleID'].to_list()
+    id = data_table[['#ID']]
+    samples_table = data_table[[*samples]]
+    filter_table = pd.concat([id, samples_table], axis=1)
+    no_zeros = (filter_table.iloc[:,1:] != 0).any(axis=1)
+    filter_table = filter_table.loc[no_zeros]
+    return filter_table
 
 
 def write_transactions(n_columns, n_rows, dataset):
     """ per ogni colonna, se a quella riga x > 0 prendi il nome della riga e
     aggiungilo alla lista della colonna """
-    transaction_list = []
+    transactions = []
     for c in np.arange(1, n_columns+1):
         print(c)
         list = []
@@ -33,13 +43,30 @@ def write_transactions(n_columns, n_rows, dataset):
             else:
                 pass
 
-        transaction_list.append(list)
+        transactions.append(list)
+    return transactions
+
+
+def convert_in_transaction_list(filter_table, data_table_name):
+    """
+    """
+    # remove space from ID column
+    filter_table['#ID'] = filter_table['#ID'].str.replace(' ','_')
+    n_cols = filter_table.shape[1] - 1
+    n_rows = filter_table.shape[0] - 1
+    transaction_list = write_transactions(n_cols, n_rows, filter_table)
     return transaction_list
 
 
-def remove_apos():
-    return table
+def save_transaction_list(data_dir, t_list, file_name):
+    """
+    """
+    # save as transaction list
+    with open(data_dir + '/' + 'transactions_' + file_name[0], 'w') as f:
+        wr = csv.writer(f)
+        wr.writerows(t_list)
 
+    return
 
 def import_fim_table():
     """ This function allow to import the itemset file in Python to perform other
@@ -76,29 +103,47 @@ def itemsets_algorithm_parameters(file_param):
     return parsed
 
 
-# def fim_calculation(input, target, minsupp, zmin, zmax, report): # questa non funziona
-#     """ Run fim scripts based on algorithm type (parsed by mf.itemsets_algorithm_parameters)
-#     and parameters imported (mi.itemsets_parameters).
-#     """
-#     itemsets = []
-#     if target == 's':
-#         itemsets = fim.eclat(input, target='s', supp=minsupp, zmin=zmin, report=report)
-#         #print(result)
-#     elif target == 'c':
-#         itemsets = fim.eclat(input, target='c', supp=minsupp, zmin=zmin, report=report)
-#         #print(result)
-#     elif target == 'm':
-#         itemsets = fim.eclat(input, target='m', supp=minsupp, zmin=zmin, report=report)
-#         #print(result)
-#     elif target == 'g':
-#         itemsets = fim.eclat(input, target='g', supp=minsupp, zmin=zmin, report=report)
-#         #print(result)
-#
-#     return itemsets
+def fim_calculation(input, target, minsupp, zmin, zmax):
+    """ Run fim scripts based on algorithm type (parsed by mf.itemsets_algorithm_parameters)
+    and parameters imported (mi.itemsets_parameters).
+    """
+    itemsets = []
+    report= '[asS'
+    if target == 'i':
+        itemsets = fim.eclat(input, target='s', supp=minsupp, zmin=zmin, report=report)
+        #print(result)
+    elif target == 'c':
+        itemsets = fim.eclat(input, target='c', supp=minsupp, zmin=zmin, report=report)
+        #print(result)
+    elif target == 'm':
+        itemsets = fim.eclat(input, target='m', supp=minsupp, zmin=zmin, report=report)
+        #print(result)
+    elif target == 'g':
+        itemsets = fim.eclat(input, target='g', supp=minsupp, zmin=zmin, report=report)
+        #print(result)
+
+    return itemsets
 
 
-# def clean_itemsets_output():
-#     return pass
+def write_results(results, data_dir, output_file):
+    """
+    """
+    # write results
+    file = open(data_dir + '/' + output_file + '.csv', 'w+', newline ='')
+    # writing the data into the file
+    with file:
+        write = csv.writer(file)
+        write.writerows(results)
+
+    out_file = data_dir + '/' + output_file + '.csv'
+    new_out_file = data_dir + '/df_' + output_file + '.csv'
+    with open(out_file, 'r') as f, open(new_out_file, 'w') as fo:
+        for line in f:
+            fo.write(line.replace('"', '').replace("'", "").replace('),[', ')/[').replace(')', '').replace('(', '').replace('[', '').replace(']', ''))
+
+
+    return file, out_file, new_out_file
+
 
 def itemsets_dataframe(input_file):
     df = pd.read_csv(input_file, sep='/', header=None)
@@ -121,6 +166,14 @@ def itemsets_dataframe(input_file):
     return data
 
 
+def export_dataframe(df, outdir, output_file):
+    """
+    """
+    output_file_name = 'df_' + output_file + '.csv'
+    df.to_csv(os.path.join(outdir, output_file_name), index=False)
+
+    return
+
 def calculate_ids_frequency(input_directory, trasactional_file):
     frequency_ids_dict = {}
     document_text = open(os.path.join(input_directory, trasactional_file), 'r')
@@ -140,6 +193,21 @@ def calculate_ids_frequency(input_directory, trasactional_file):
     #     print(words, frequency_ids_dict[words])
 
     return frequency_ids_dict
+
+
+def len_trans_file(data_dir, trans_file):
+    """
+    """
+    lines_in_file = open(os.path.join(data_dir, trans_file), 'r').readlines()
+    lines = float(len(lines_in_file))
+
+    return lines
+
+
+def export_add_patterns():
+    """
+    """
+    return
 
 
 def set_patterns_for_matching(pattern_dataframe):
@@ -205,6 +273,61 @@ def generate_pattern_occurrences(input_dir, col_patterns, transactional_list, me
 
     return pattern_table
 
+
+def generate_pattern_occurrences_rev(input_dir, col_patterns, transactional_list, meta_file, sep):
+    pattern_table = []
+
+    for a in col_patterns:
+        pattern_line = []
+        #print('pattern:', a)
+        for b in transactional_list:
+            #print('sample transactional:', b)
+            result = all(elem in b for elem in a)
+            if result:
+                pattern_line.append(1)
+            else:
+                pattern_line.append(0)
+        pattern_table.append(pattern_line)
+
+    print('pattern_table:', pattern_table)
+    #df_meta = pd.read_csv(os.path.join(input_dir, meta_file), sep=sep, header=0, index_col=None)
+    #print(df_meta, '\n')
+    # print(df_meta.columns)
+
+    meta_cols = meta_file.columns
+    print(meta_cols)
+    #list_of_names = student_df['Name'].to_list()
+    #sample_cols = meta_cols[1:]
+    sample_cols = meta_file['#SampleID'].to_list()
+    print(sample_cols)
+    pattern_table = pd.DataFrame.from_records(pattern_table, columns=sample_cols)
+    # print(pattern_table)
+
+    return pattern_table
+
+
+def generate_pattern_table(data_allc_update, df, data_dir, trans_file, metadata, meta_sep):
+    """
+    """
+    col_patterns = set_patterns_for_matching(data_allc_update)
+    transactional_list = set_transdata_for_matching(data_dir, trans_file)
+    pattern_table = generate_pattern_occurrences_rev(data_dir, col_patterns, transactional_list, metadata, meta_sep)
+    pattern_table_complete = concat_tables(df, pattern_table)
+
+    return pattern_table_complete
+
+
+def export_pattern_tables(pattern_table, data_dir, out_file_name):
+    """
+    """
+    #df_pattern_table_clean = pattern_table.drop(['Samples', 'Support', 'Support(%)', 'Pattern length', 'All-confidence'], axis=1)
+    # export standard
+    pattern_table.to_csv(os.path.join(data_dir, out_file_name + '_complete.csv'), index=False)
+
+    # export cleaned
+    #df_pattern_table_clean.to_csv(os.path.join(data_dir, out_file_name + '.csv'), index=False)
+
+    return
 
 def concat_tables(df, pattern_table):
     df_pattern_table = pd.concat([df, pattern_table], axis=1)

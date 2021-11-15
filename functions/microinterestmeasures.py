@@ -6,6 +6,7 @@ import string
 import numpy as np
 import pandas as pd
 import functions.microimport as mi
+import functions.microfim as mf
 
 
 def calculate_ids_frequency(input_directory, trasactional_file):
@@ -38,6 +39,7 @@ def calculate_ids_occurrence(df_otu):
     df_otu2['Occurrences'] = df_otu2.sum(axis=1)
 
     ids = df_otu['#ID'].str.lower().str.replace(' ','_')
+    print(ids)
     occurrences = df_otu2['Occurrences']
     L = [ids,occurrences]
     new_df = pd.concat(L, axis=1)
@@ -94,6 +96,30 @@ def all_confidence(input_data, frequency, n_samples):
     input_data['All-confidence'] = all_c_array.tolist()
 
     return input_data
+
+
+def add_interest_measures(data_table, df, trans_file, data_dir):
+    """
+    """
+    # calculate frequency
+    frequency = calculate_ids_occurrence(data_table)
+    print(frequency)
+
+    # calculate len of trans_file
+    number_of_lines = mf.len_trans_file(data_dir, trans_file)
+
+    # calculate all-confidence
+    data_allc_update = all_confidence(df, frequency, number_of_lines)
+
+    return data_allc_update
+
+
+def add_table_export(data_allc_update, data_dir, add_interest_file):
+    """
+    """
+    data_allc_update.to_csv(os.path.join(data_dir, 'df_' + add_interest_file + '.csv'), index=False)
+
+    return
 
 
 def cross_support(input_data, frequency, n_samples):
