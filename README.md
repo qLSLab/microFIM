@@ -4,6 +4,7 @@
 
 ## Overview
 microFim (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis.
+
 The tool is developed to create a bridge between microbial ecology researchers and ARM technique, integrating the common microbiome outputs (in particular, OTU and taxa table), metadata files typically used in microbiome analysis, and it provides similar microbiome outputs that help scientists to integrate ARM in microbiome applications. In detail, microFIM generates the **pattern table** - an OTU table built with the patterns extracted via ARM (see Figure above as an example)- that can be used to further statistical analysis, as biodiversity analysis based on distance metrics, and microbiome visualization strategies - as pattern-based heatmaps.
 In general, the tools is versatile thanks to the type of input that can be imported. microFIM is suited for metabarcoding projects and datasets that respect the input format guidelines, as for example gene expression data. See the **microFIM input** section for details.
 
@@ -101,6 +102,9 @@ We recomment to keep the option *report = [asS* in order to correctly used our s
 * Step 5: **creation of the pattern table** - similar to a taxa table, the pattern table describe the presence-absence of a pattern in the samples analysed. A CSV file is obtained. The script to obtain the pattern table is [script_5_generatepatterntable.py](script_5_generatepatterntable.py). 
 
 * Step 6: **visualization of results** - from the pattern table, plot can be obtained. In particular, bar plot, scatter plot and heatmap are available. The standard output is SVG and HTML format. The script to generate visualizations is [script_6_generateplots.py](script_6_generateplots.py).
+
+## Contacts
+For any doubt, please contact g.agostinetto@campus.unimib.it
 
 ## Cite us
 Link
