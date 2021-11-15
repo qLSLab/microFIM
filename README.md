@@ -3,21 +3,25 @@
 ![alt text](microFIM_framework.jpg)
 
 ## Overview
-microFim (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis.
+**microFim (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis**.
 
-The tool is developed to create a bridge between microbial ecology researchers and ARM technique, integrating the common microbiome outputs (in particular, OTU and taxa table), metadata files typically used in microbiome analysis, and it provides similar microbiome outputs that help scientists to integrate ARM in microbiome applications. In detail, microFIM generates the **pattern table** - an OTU table built with the patterns extracted via ARM (see Figure above as an example)- that can be used to further statistical analysis, as biodiversity analysis based on distance metrics, and microbiome visualization strategies - as pattern-based heatmaps.
-In general, the tools is versatile thanks to the type of input that can be imported. microFIM is suited for metabarcoding projects and datasets that respect the input format guidelines, as for example gene expression data. See the **microFIM input** section for details.
+The tool is developed to create a bridge between microbial ecology researchers and ARM technique, integrating the common microbiome outputs (in particular, OTU, ESV and taxa table), metadata files typically used in microbiome analysis, and it provides similar microbiome outputs that help scientists to integrate ARM in microbiome pipelines. 
+
+In detail, microFIM generates the **pattern table** - an OTU table built with the patterns extracted via ARM (see Figure above as an example)- that can be used for further statistical analysis and microbiome visualization strategies.
+
+microFIM is also versatile. It is suited for metabarcoding projects and datasets that respect the input format requests (see the **microFIM input** section for details and examples).
 
 ### Frequent Itemset Mining (or ARM) in a nutshell
-Association rule learning is a rule-based machine learning method for discovering interesting relations between variables in large databases. It is intended to identify patterns (group of items) and strong rules discovered in databases using some measures of interestingness.
-microFIM is implemeted to integrate ARM analysis in 16S rRNA microbiome analysis. An example of applications is provided in the figure below.
+Association rule mining is a supervised machine learning method for discovering interesting relations between variables in large databases. It is intended to identify patterns (group of items) and strong rules discovered in databases using some measures of interestingness.
+
+microFIM is implemeted to integrate ARM analysis in 16S rRNA microbiome pipelines. An example of applications is provided in the figure below.
 
 ![alt text](arm_microbiome_applications.png)
 
-microFIM, in particular, supports **pattern mining phases**, in order to extract interesting patterns from 16S rRNA microbiome analysis.
+microFIM, in particular, supports **pattern mining phase** (itemset extraction), in order to extract interesting patterns from 16S rRNA microbiome data.
 Details about ARM approach are available in the work of Naulearts et al., 2016 [[1]](#1) and Agrawal et al., 1993 [[2]](#2).
 
-microFIM framework is developed in **6 main steps** (see the next sections for details and the main figure for an **overview**) and it integrated the following metrics:
+microFIM framework is developed in **6 main steps** (see the next sections for details and the main figure for an **overview**) and it integrates the following metrics:
 
 * to extract patterns, the mandatory parameters (also available in [input_templates](input_templates) directory) are the following:
    * minimum support to be considered to extract interesting patterns, intended as Support = frq(X,Y)/N, e.g. the frequency of the pattern in the dataset;
@@ -30,11 +34,15 @@ microFIM framework is developed in **6 main steps** (see the next sections for d
    * number of samples in which the patterns were found.
    
 * interest measures integrated in microFIM framework:
-   * all-confidence - metrics to evaluate 'hypercliques patterns' [[3]](#3). Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the     ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’.
+   * all-confidence - metrics to evaluate 'hypercliques patterns' [[3]](#3). 
+   
+     Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the ratio between the support of ‘X’ and the highest support   retrieved from the elements of the pattern ‘X’.
    
       all-confidence(X) = min{P(X|Y),P(Y|X)}
    
-       All-confidence means that all rules which can be generated from itemset X have at least a confidence of all-confidence(X). For details, see [[3]](#3)[[4]](#5).
+       All-confidence means that all rules which can be generated from itemset X have at least a confidence of all-confidence(X). 
+       For details, see [[3]](#3)[[4]](#5).
+       
     Example: Considering a pattern ‘X’ composed of different items, all-confidence is calculated as the ratio between the support of ‘X’ and the highest support retrieved from the elements of the pattern ‘X’. For example, a pattern X is composed of 3 elements that, considering the entire dataset, have the following support threshold: 0.3, 0.6 and 0.8. Overall, the pattern X has a support of 0.3. All-confidence will be calculated as the ratio between the support of X - 0.3 - and the higher support within X - 0.8, resulting in 0.37. All-confidence, in this way, is defined as the smallest confidence of all rules which can be produced from a pattern, i.e., all rules produced from a pattern will have a confidence greater or equal to its all-confidence value [[3]](#3)[[5]](#5). In detail, confidence is an indication of how often a rule has been found to be true, so it is considered as a measure of rule reliability [[1]](#1)[[6]](#6).
 
 Below, installation, instructions of use and tutorials are provided.
@@ -56,10 +64,10 @@ Below, installation, instructions of use and tutorials are provided.
 ## Usage
 microFIM can be used via guided scripts or python functions. \
 Please see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb) for complete tutorials for both usage.
-Below, recomendations about input files format and explanation about the structure and functions module available.
+Below, recomendations about input files format and explanation about the structure and functions module are available.
 
 ### Input/output microFIM files
-microFIM accepts as input taxa table in CSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; [[7]](#7)) or in MLrepo (https://knights-lab.github.io/MLRepo/; [[8]](#8)).
+microFIM accepts as input taxa table and metadata in CSV or TSV format. An example of taxa table is provided in [tutorials](tutorials) (e.g. as test1.csv or test2.csv). In particular, the file is composed by the rows and columns representing the taxa with their abundances for each sample (visible also in the figure below). This kind of file derives from the conversion of the BIOM file into a CSV file (https://biom-format.org/). There are different ways to convert a BIOM file into a TSV or CSV file, at the end of the page we provide some options. In general, you can find taxa tables in different sources, as for example in QIITA platform (https://qiita.ucsd.edu/; [[7]](#7)) or in MLrepo (https://knights-lab.github.io/MLRepo/; [[8]](#8)).
 Considering microbiome analysis, QIIME2 provide complete frameworks and scripts to analyse and obtain taxa tables (https://qiime2.org/; [[9]](#9)).
 
 ![alt text](taxa_table_example.png)
@@ -71,40 +79,49 @@ In the taxa table, the column describing taxa must be filled as #ID. You can ren
 or a text editor;
 * #SampleID \
 If you want to filter your taxa table with a list of samples or metadata file, the column name must be filled as #SampleID; 
-* CSV format \
-Taxa table, metadata file and sample list file must be provided as CSV files. Template file is already defined as CSV in [input_templates](input_templates) directory.
+* CSV or TSV format \
+Taxa table and metadata file must be provided as CSV or TSV files. Template file is already defined as CSV in [input_templates](input_templates) directory.
 
 #### Output description
-* transactional file: taxa table is converted into a transactional file (see Figure below for an example), where each row represents a sample with the list of taxa it contains;
+* transactional file: taxa table is converted into a transactional file, where each row represents a sample with the list of elements it contains;
+* pattern datadrame: for each pattern, interesting measures are calculated and represented in CSV dataframe;
 * pattern table as CSV: after pattern extraction, a presence-absence matrix is calculated, considering for each pattern if it is present or not in each sample - the results is similar to a taxa table, where the first column contains the patterns while the others describe in which sample are found. Columns considering the length of the patterns and their support are reported. Additional metrics can be also added (see Next section for details) - see the Figure below for an example;
-* plots as SVG and HTML: visualizations as barplot, scatter plot and heatmap can be generated (see Next section for details)
+* plots as SVG and HTML: visualizations as barplot, scatter plot and heatmap can be generated.
 
 
 ### Structure
 Guided scripts are defined in **6 main phases**, also represented in [microFIM_framework](microFIM_framework.jpg) figure.
-In addition, we provided python function modules thascript_0_filtertable.pyt follow the previous structure. Here we describe the main steps and their respectives modules. For complete tutorials, see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb). 
-In particular:
+For complete tutorials, see [microfim_tutorial_notebook](microfim_tutorial_notebook.ipynb). 
+
+#### Script usage
 * Step 1: **importing and filtering taxa table** - in the first phase you can filter your taxa table using the metadata file (via #SampleID column). 
 If you want to run microFIM on your taxa table without filtering, go to the next step.
 The script to filter is [script_1_filtertable.py](script_1_filtertable.py). 
 
-* Step 2: **conversion into a transactional dataset** - taxa table (CSV) must be converted in a transactional file (see the previous description for details). The script to convert it [script_2_tableconversion.py](script_2_tableconversion.py).
+* Step 2: **conversion into a transactional dataset** - taxa table must be converted in a transactional file (see the previous description for details). The script to convert it is [script_2_tableconversion.py](script_2_tableconversion.py).
 
 * Step 3: **patterns extraction** - microFIM extract patterns from the transactional file (see previous step). To run [script_3_microfimcalculation.py](script_3_microfimcalculation.py), files with parameters must be given as input, you can find examples to be filled in [template_inputs](template_inputs).
 The parameters to be filled are: 
-   * minimum support;
-   * minimum length;
-   * maximum length.
-We recomment to keep the option *report = [asS* in order to correctly used our scripts.
+   * minimum support (minsupp);
+   * minimum length (zmin);
+   * maximum length (zmax).
+We recomment to keep the option **report = [asS** in order to correctly used our scripts.
 
-* Step 4: **integration of additional interest measures** - microFIM provides additional interest metrics to evaluate patterns, in particular all-Confidence is added. However, other metrics can be added. For each pattern, the value of the interes measure is added in a separate column, in order to guarantee further analysis and filtering steps. The script to calculate additional interest measures is [script_4_additionalmeasures.py](script_4_additionalmeasures.py). 
+* Step 4: **integration of additional interest measures** - microFIM provides additional interest metrics to evaluate patterns, in particular all-Confidence is added. However, other metrics can be added. For each pattern, the value of the interest measure is added in a separate column, in order to guarantee further analysis and filtering steps. The script to calculate additional interest measures is [script_4_additionalmeasures.py](script_4_additionalmeasures.py). 
 
-* Step 5: **creation of the pattern table** - similar to a taxa table, the pattern table describe the presence-absence of a pattern in the samples analysed. A CSV file is obtained. The script to obtain the pattern table is [script_5_generatepatterntable.py](script_5_generatepatterntable.py). 
+* Step 5: **creation of the pattern table** - similar to a taxa table, the pattern table describes the presence-absence of a pattern in the samples analysed. A CSV file is obtained. The script to obtain the pattern table is [script_5_generatepatterntable.py](script_5_generatepatterntable.py). 
 
-* Step 6: **visualization of results** - from the pattern table, plot can be obtained. In particular, bar plot, scatter plot and heatmap are available. The standard output is SVG and HTML format. The script to generate visualizations is [script_6_generateplots.py](script_6_generateplots.py).
+* Step 6: **visualization of results** - from the pattern table, plot can be obtained. In particular, bar plot, scatter plot and heatmap are available. The standard output are SVG and HTML format. The script to generate visualizations is [script_6_generateplots.py](script_6_generateplots.py).
+
+#### Function usage
+* microdir module: functions for setting project directory.
+* microimport module: functions for importing input files.
+* microfim module: main functions of microFIM - converting data, extract patterns, generated main outputs.
+* microinteresmeasures module: functions implementing interesting measures.
+* microplots module: functions for visualization of results.
 
 ## Contacts
-For any doubt, please contact g.agostinetto@campus.unimib.it
+For any doubt and help, please contact g.agostinetto@campus.unimib.it
 
 ## Cite us
 Link
