@@ -1,11 +1,12 @@
 import pandas as pd
 import sys
 import csv
-import functions.microfim as mf
-import functions.microdir as md
 import numpy as np
 import os
 import readline
+import functions.microfim as mf
+import functions.microdir as md
+import functions.microimport as mi
 
 
 """ This script can be used to convert a otu/esv/taxa table into a list of transactions.
@@ -13,80 +14,67 @@ At this stage, do not worry about the format of the input. The script will ask
 you which is the separator.
 
 The output will be saved as a list of transactions into input directory.
+
 """
 
 # set autcompletion
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
-# set dirs
-data_dir = input('Do you want to change input directory?\nType Y or N: ')
+
+# set dir
+data_dir = input('Set your project directory:\n')
 print(f'> You entered: {data_dir}\n\n')
 
-if data_dir == 'Y':
-    new_data_dir = input('Which is the new input directory?')
-    input_dir = md.set_inputs_dir(new_data_dir)
-    print('New input directory setted!')
-
-else:
-    input_dir = md.set_inputs_dir()
-    print('Default input directory will be used.')
-
+data_dir = md.set_inputs_dir_rev(data_dir)
+print('Project directory:', '\n\n', data_dir)
+print('\n\n')
 
 
 # list files of inputs dir
-files = os.listdir(input_dir)
+files = os.listdir(data_dir)
+print('Here is the list of files in the project directory: \n')
 print(files, '\n\n')
 
-
 # set input dir and autcompletion
-os.chdir(input_dir)
+os.chdir(data_dir)
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
 
-# input
-input_file = input('Insert otu/taxa table to convert:\n')
-print(f'> You entered: {input_file}\n\n')
+# import taxa/otu/esv table
+data_table = input('Insert your data table:\n')
+print(f'> You entered: {data_table}\n\n')
 
-sep = input('Declare the column separate of your otu table:\n \
+
+# sep
+data_sep = input('Declare the column separate of your otu/taxa/esv table:\n \
 E.g. , for commas\n')
-print(f'> You entered: {sep}\n\n')
+print(f'> You entered: {data_sep}\n\n')
+
+# SET OUTPUT NAME
+file_name = mi.output_file_name(data_table)
 
 
-#import as df
-df = pd.read_csv(os.path.join(input_dir, input_file), sep=sep, header=0, index_col=None)
-print(df)
+# import files
+## import data table (otu, esv or taxa table)
+data_table = mi.import_data_table(data_table, data_dir, data_sep)
+print(data_table)
 
-# sys.exit()
+# CONVERT DATA TABLE IN TRANSACTIONAL data
 
-# name
-file_name = input_file.split('.')
-print(file_name)
-
-# remove space from ID column
-df['#ID'] = df['#ID'].str.replace(' ','_')
-
-print(df)
-
-n_cols = df.shape[1] - 1
-print(n_cols)
-n_rows = df.shape[0] - 1
-print(n_rows)
-
-
-t_list = mf.write_transactions(n_cols, n_rows, df)
+t_list = mf.convert_in_transaction_list(data_table, data_table)
 print(t_list)
 
-# save as transaction list
-with open(input_dir + '/' + 'transactions_' + file_name[0], 'w') as f:
-    wr = csv.writer(f)
-    wr.writerows(t_list)
+
+# save file
+mf.save_transaction_list(data_dir, t_list, file_name)
+
 
 # convert commas in spaces (for the next steps)
 # remove old output to clean folder
 output = 'transactions_' + file_name[0]
 print(f'\n\n> Otu table converted!\n \
-Now run from your command line in {input_dir}:\n\n \
+Now run from your command line in {data_dir}:\n\n \
 sed -i -e "s/,/ /g" {output}\n\n \
 rm {output}-e # if necessary\n\n')

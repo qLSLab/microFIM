@@ -11,112 +11,74 @@ import functions.microdir as md
 import functions.microinterestmeasures as mim
 import functions.microimport as mi
 
+
 """ This script calculate additional interest measures that can be used
-to filter results. In particular:
-- allConfidence (ref)
-- crossSupport (ref) """
+to filter results.
+In particular:
+- allConfidence (Ref: https://michael.hahsler.net/research/association_rules/measures.html#all-confidence)
+
+Input file:
+- pattern dataframe;
+- transactional file.
+
+"""
 
 
 # set autcompletion
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
-# set dirs
-data_dir = input('Do you want to change input directory?\nType Y or N: ')
+# set dir
+data_dir = input('Set your project directory:\n')
 print(f'> You entered: {data_dir}\n\n')
 
-if data_dir == 'Y':
-    new_data_dir = input('Which is the new input directory?')
-    input_dir = md.set_inputs_dir(new_data_dir)
-    print('New input directory setted!')
+data_dir = md.set_inputs_dir_rev(data_dir)
+print('Project directory:', '\n\n', data_dir)
+print('\n\n')
 
-else:
-    input_dir = md.set_inputs_dir()
-    print('Default input directory will be used.')
-
-files = os.listdir(input_dir)
-
-output_dir = input('Do you want to change output directory?\nType Y or N: ')
-print(f'> You entered: {output_dir}\n\n')
-
-if output_dir == 'Y':
-    new_out_dir = input('Which is the new input directory?')
-    out_dir = md.set_outputs_dir(new_out_dir)
-    print('New output directory setted!')
-
-else:
-    out_dir = md.set_outputs_dir()
-    print('Default output directory will be used.')
-
-
-print(os.listdir(input_dir))
+# list files of inputs dir
+files = os.listdir(data_dir)
+print('Here is the list of files in the project directory: \n')
+print(files, '\n\n')
 
 # set input dir and autcompletion
-os.chdir(input_dir)
+os.chdir(data_dir)
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
 
-print(os.listdir(out_dir))
-
-input_file = input("Insert your itemset file:\n\n")
-print(f'> You entered: {input_file}\n\n')
-
-otu_table = input("Insert your taxa table file:\n\n")
-print(f'> You entered: {otu_table}\n\n')
-
-trans_file = input("Insert your transactional file:\n\n")
+## import trans file
+trans_file = input('Insert your transactional data:\n')
 print(f'> You entered: {trans_file}\n\n')
 
+# import data table (esv/otu/taxa)
+data_table = input('Insert your data table:\n')
+print(f'> You entered: {data_table}\n\n')
 
-df = pd.read_csv(os.path.join(out_dir, input_file), header=0, index_col=None)
-print(df)
-n_patterns = df.shape[0]
-
-#
-df_otu = pd.read_csv(os.path.join(input_dir, otu_table), header=0, sep='\t', index_col=None)
-
-print(df_otu)
-
-# convert to a list (comment 8/11)
-# list_of_string = df_otu['#ID'].tolist()
-# print(list_of_string)
-# for i in list_of_string:
-#     i = i.lower()
-
-# print(list_of_string)
+data_sep = input('Declare the column separate of your otu/taxa/esv table:\n \
+E.g. , for commas\n')
+print(f'> You entered: {data_sep}\n\n')
 
 
-# calculate ids frequency and create a dict
-#frequency = mim.calculate_ids_frequency(input_dir, trans_file)
-#print(frequency)
-
-# calculate occurrences for each id
-frequency = mim.calculate_ids_occurrence(df_otu)
-print(frequency)
+data_table = mi.import_data_table(data_table, data_dir, data_sep)
 
 
+# import pattern dataframe
+pattern_df = input('Insert your dataframe with patterns:\n')
+print(f'> You entered: {pattern_df}\n\n')
 
-#sys.exit()
-
-# calculate len of trans_file
-lines_in_file = open(os.path.join(input_dir, trans_file), 'r').readlines()
-#print(lines_in_file)
-number_of_lines = float(len(lines_in_file))
-
-#print(number_of_lines)
+## import patterns dataframe
+df = mi.import_pattern_dataframe_rev(data_dir, pattern_df)
 
 
-data_allc_update = mim.all_confidence(df, frequency, number_of_lines)
-#print(data_allc_update)
+# CALCULATE ADDITIONAL METRICS
+# calculate and add all-confidence values
+data_allc_update = mim.add_interest_measures(data_table, df, trans_file, data_dir)
 
-#sys.exit()
+# set output file name
+add_interest_file = input('Insert your output file name (without extensions):\n')
+print(f'> You entered: {add_interest_file}\n\n')
 
-data_crosssupp_update = mim.cross_support(df, frequency, number_of_lines)
-#print(data_crosssupp_update)
-
-# write file
-file_name = input('Insert your output file name (without extensions):\n')
-print(f'> You entered: {file_name}\n\n')
-
-data_crosssupp_update.to_csv(os.path.join(out_dir, file_name + '.csv'), index=False)
+# export dataframe
+mim.add_table_export(data_allc_update, data_dir, add_interest_file)
+print('Results saved as df_' + add_interest_file + '.csv in ' + data_dir + '\n\n')

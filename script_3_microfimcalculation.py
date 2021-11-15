@@ -12,10 +12,12 @@ import functions.microimport as mi
 
 
 """ This script calculate microbial patterns!
-Files:
-- otu/esv/taxa table previously converted in transactions
-- file with parameters in .csv format (support, zmin and zmax + type of report)
-    template available in the tutorial folder """
+Input files:
+- transactionsal data of your otu/esv/taxa table (previously converted with script_2)
+- file with parameters in .csv format (support, minimum length and maximum length)
+    template available in the tutorial folder
+
+"""
 
 
 # details about input and output
@@ -42,46 +44,43 @@ else:
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
-# set dirs
-data_dir = input('Do you want to change input directory?\nType Y or N: ')
+
+# set dir
+data_dir = input('Set your project directory:\n')
 print(f'> You entered: {data_dir}\n\n')
 
-if data_dir == 'Y':
-    new_data_dir = input('Which is the new input directory?')
-    input_dir = md.set_inputs_dir(new_data_dir)
-    print('New input directory setted!')
-
-else:
-    input_dir = md.set_inputs_dir()
-    print('Default input directory will be used.')
+data_dir = md.set_inputs_dir_rev(data_dir)
+print('Project directory:', '\n\n', data_dir)
+print('\n\n')
 
 
-# import
 # list files of inputs dir
-files = os.listdir(input_dir)
-print('Here the list of files in your input directory: ', files, '\n\n')
+files = os.listdir(data_dir)
+print('Here is the list of files in the project directory: \n')
+print(files, '\n\n')
 
 # set input dir and autcompletion
-os.chdir(input_dir)
+os.chdir(data_dir)
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
 
-input_file = input("Insert your input file:\n\n")
-print(f'> You entered: {input_file}\n\n')
+# import trans file
+trans_file = input('Insert your transactional data:\n')
+print(f'> You entered: {trans_file}\n\n')
 
+
+# import files with parameters
 par_file = input("Insert your file with fim parameters:\n\n")
 print(f'> You entered: {par_file}\n\n')
 
 
-# import transactions and file with paramaters
-t = mf.read_transaction(os.path.join(input_dir, input_file))
-print(t)
+# import parameters file and transactions
+## import transactions
+t = mf.read_transaction(os.path.join(data_dir, trans_file))
 
-
-# parse parameter file
-minsupp, zmin, zmax= mi.itemsets_parameters(input_dir, par_file)
-print(minsupp, zmin, zmax)
+## import file with paramaters
+minsupp, zmin, zmax= mi.itemsets_parameters(data_dir, par_file)
 
 
 # which target to calculate?
@@ -94,66 +93,23 @@ print(f'> You entered: {to_calculate}\n\n')
 
 report= '[asS'
 
-
-# run eclat
-if to_calculate == 'i':
-    results = fim.eclat(t, target='s', supp=minsupp, zmin=zmin, report=report)
-elif to_calculate == 'c':
-    results = fim.eclat(t, target='c', supp=minsupp, zmin=zmin, report=report)
-elif to_calculate == 'm':
-    results = fim.eclat(t, target='m', supp=minsupp, zmin=zmin, report=report)
-
-print(results)
-
-
-#sys.exit()
-
-
-
 # output file name
 output_file = input("Insert your output file name (without extensions):\n\n")
 print(f'> You entered: {output_file}\n\n')
 
+# calculate patterns
+results = mf.fim_calculation(t, to_calculate, minsupp, zmin, zmax)
+print('Patterns extracted')
 
-# set output dir
-output_dir = input('Do you want to change output directory?\nType Y or N: ')
-print(f'> You entered: {output_dir}\n\n')
-
-if output_dir == 'Y':
-
-    # set autcompletion
-    os.chdir("..")
-    readline.set_completer_delims(' \t\n=')
-    readline.parse_and_bind("tab: complete")
-
-    # new
-    new_out_dir = input('Which is the new input directory?')
-    out_dir = md.set_outputs_dir(new_out_dir)
-    print('New output directory setted!')
-
-else:
-    out_dir = md.set_outputs_dir()
-    print('Default output directory will be used.')
+# write patterns results
+file, out_file, new_out_file = mf.write_results(results, data_dir, output_file)
 
 
-# opening the csv file in 'w+' mode
-file = open(out_dir + '/' + output_file + '.csv', 'w+', newline ='')
-# writing the data into the file
-with file:
-    write = csv.writer(file)
-    write.writerows(results)
-
-
-out_file = out_dir + '/' + output_file + '.csv'
-new_out_file = out_dir + '/df_' + output_file + '.csv'
-with open(out_file, 'r') as f, open(new_out_file, 'w') as fo:
-    for line in f:
-        fo.write(line.replace('"', '').replace("'", "").replace('),[', ')/[').replace(')', '').replace('(', '').replace('[', '').replace(']', ''))
-
-
-
-## convert itemsets results into a dataframe
+# convert itemsets results into a dataframe
 df = mf.itemsets_dataframe(new_out_file)
-df.to_csv(new_out_file, index=False)
+print(df)
 
-print('Results saved!')
+# export as a csv
+mf.export_dataframe(df, data_dir, output_file)
+
+print('Results saved as ' + new_out_file + ' in ' + data_dir + '\n\n')

@@ -1,13 +1,13 @@
 import pandas as pd
 import os
 import sys
+import readline
 
 import functions.microfim as mf
 import functions.microdir as md
 import functions.microinterestmeasures as mim
 import functions.microimport as mi
 
-import readline
 
 """ This script can be used to create the pattern table.
 Inputs:
@@ -23,86 +23,58 @@ inrerest measures) into input directory.
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
-# set dirs
-data_dir = input("Do you want to change input directory?\nType Y or N: ")
+# set dir
+data_dir = input('Set your project directory:\n')
 print(f'> You entered: {data_dir}\n\n')
 
-if data_dir == 'Y':
-    new_data_dir = input("Which is the new input directory?")
-    input_dir = md.set_inputs_dir(new_data_dir)
-    print('New input directory setted!')
+data_dir = md.set_inputs_dir_rev(data_dir)
+print('Project directory:', '\n\n', data_dir)
+print('\n\n')
 
-else:
-    input_dir = md.set_inputs_dir()
-    print('Default input directory will be used.')
+# list files of inputs dir
+files = os.listdir(data_dir)
+print('Here is the list of files in the project directory: \n')
+print(files, '\n\n')
 
-
-out_dir = input("Do you want to change output directory?\nType Y or N: ")
-print(f'> You entered: {out_dir}\n\n')
-
-if out_dir == 'Y':
-    new_out_dir = input("Which is the new input directory?")
-    out_dir = md.set_inputs_dir(new_out_dir)
-    print('New output directory setted!')
-
-else:
-    out_dir = md.set_outputs_dir()
-    print('Default input directory will be used.')
+# set input dir and autcompletion
+os.chdir(data_dir)
+readline.set_completer_delims(' \t\n=')
+readline.parse_and_bind("tab: complete")
 
 
-# imports data to creata taxa table
-print(os.listdir(input_dir), '\n')
-print(os.listdir(out_dir))
-# itemset input 0
-
-itemset_input = input("Insert your itemset file:\n\n")
+# IMPORT
+# import pattern dataframe
+itemset_input = input('Insert your dataframe with patterns:\n')
 print(f'> You entered: {itemset_input}\n\n')
 
-# otu table input 1
-trans_input = input("Insert your transactional file:\n\n")
-print(f'> You entered: {trans_input}\n\n')
+## import patterns dataframe
+itemset_input = mi.import_pattern_dataframe_rev(data_dir, itemset_input)
 
-# metrics input 2
-metadata_input = input("Insert your metadata file:\n\n")
-print(f'> You entered: {metadata_input}\n\n')
+## import trans file
+trans_file = input('Insert your transactional data:\n')
+print(f'> You entered: {trans_file}\n\n')
 
-# for metadata
-sep = input('Declare the column separate of your metadata file:\n \
+# import metadata
+metadata = input('Insert your metadata file:\n')
+print(f'> You entered: {metadata}\n\n')
+
+# sep
+meta_sep = input('Declare the column separate of your metadata file:\n \
 E.g. , for commas\n')
-print(f'> You entered: {sep}\n\n')
+print(f'> You entered: {meta_sep}\n\n')
+
+metadata = mi.import_metadata(metadata, data_dir, meta_sep)
+print(metadata)
 
 
-df = pd.read_csv(os.path.join(out_dir, itemset_input), header=0, index_col=None)
-print(df, '\n')
+# GENERATE PATTERN TABLE
+## generate pattern table with patterns and interest measures
+pattern_table_complete = mf.generate_pattern_table(itemset_input, itemset_input, data_dir, trans_file, metadata, meta_sep)
+print(pattern_table_complete)
 
-#sys.exit()
+# output file name
+output_pattern_table = input("Insert your output file name (without extensions):\n\n")
+print(f'> You entered: {output_pattern_table}\n\n')
 
-col_patterns = mf.set_patterns_for_matching(df)
-#print(col_patterns)
-
-print('\n')
-
-#sys.exit()
-
-transactional_list = mf.set_transdata_for_matching(input_dir, trans_input)
-#print(transactional_list)
-
-#sys.exit()
-
-pattern_table = mf.generate_pattern_occurrences(input_dir, col_patterns, transactional_list, metadata_input, sep)
-#print(pattern_table)
-
-df_pattern_table = mf.concat_tables(df, pattern_table)
-print(df_pattern_table)
-
-# only 0 and 1
-df_pattern_table_clean = df_pattern_table.drop(['Samples', 'Support', 'Support(%)', 'Pattern length', 'All-confidence', 'Cross-support'], axis=1)
-
-#sys.exit()
-
-# save
-output_file = input("Insert your output file name (without extensions):\n\n")
-print(f'> You entered: {output_file}\n\n')
-
-df_pattern_table.to_csv(os.path.join(out_dir, output_file + '_complete.csv'), index=False)
-df_pattern_table_clean.to_csv(os.path.join(out_dir, output_file + '.csv'), index=False)
+## export pattern table as cv
+mf.export_pattern_tables(pattern_table_complete, data_dir, output_pattern_table)
