@@ -11,161 +11,141 @@ import functions.microfim as mf
 import functions.microdir as md
 import functions.microinterestmeasures as mim
 import functions.microimport as mi
+import functions.microplots as mp
 
-from sklearn.metrics import pairwise_distances #jaccard diss.
-from sklearn import manifold
-
-
-""" This script produce plotly figures inspired by common microbiome data
-visualization representations """
-
-##### COMMENTS FOR DEF VALUES #####
-
-# # set autcompletion
-# readline.set_completer_delims(' \t\n=')
-# readline.parse_and_bind("tab: complete")
-#
-# # set dirs
-# data_dir = input("Do you want to change input directory?\nType Y or N: ")
-# print(f'> You entered: {data_dir}\n\n')
-#
-# if data_dir == 'Y':
-#     new_data_dir = input("Which is the new input directory?")
-#     input_dir = md.set_inputs_dir(new_data_dir)
-#     print('New input directory setted!')
-#
-# else:
-#     input_dir = md.set_inputs_dir()
-#     print('Default input directory will be used.')
-#
-#
-# out_dir = input("Do you want to change output directory?\nType Y or N: ")
-# print(f'> You entered: {out_dir}\n\n')
-#
-# if out_dir == 'Y':
-#     new_out_dir = input("Which is the new input directory?")
-#     out_dir = md.set_inputs_dir(new_out_dir)
-#     print('New output directory setted!')
-#
-# else:
-#     out_dir = md.set_outputs_dir()
-#     print('Default input directory will be used.')
-#
-#
-# # imports data to creata taxa table
-# print(os.listdir(input_dir), '\n')
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
-##### FINO A QUI #####
+""" This script produce plotly figures to represent pattern distribution and
+general statistics (TO DO) - removing '#' from .show() command you can directly
+interacts with the plots """
 
-input_dir = '/Users/j/Documents/PHD/MICROFIM/microFim_dev/ecam_outputs/'
-out_dir = '/Users/j/Documents/PHD/MICROFIM/microFim_dev/ecam_inputs/'
 
-os.chdir(input_dir)
+# set autcompletion
 readline.set_completer_delims(' \t\n=')
 readline.parse_and_bind("tab: complete")
 
-print(os.listdir(input_dir), '\n')
+# set dir
+data_dir = input('Set your project directory:\n')
+print(f'> You entered: {data_dir}\n\n')
 
-# pattern input
-pattern_input = 'pattern_table_test_complete.csv'
-# pattern_input = input("Insert your pattern file:\n\n")
-# print(f'> You entered: {pattern_input}\n\n')
+data_dir = md.set_inputs_dir_rev(data_dir)
+print('Project directory:', '\n\n', data_dir)
+print('\n\n')
+
+# list files of inputs dir
+files = os.listdir(data_dir)
+print('Here is the list of files in the project directory: \n')
+print(files, '\n\n')
+
+# set input dir and autcompletion
+os.chdir(data_dir)
+readline.set_completer_delims(' \t\n=')
+readline.parse_and_bind("tab: complete")
+
+
+
+# IMPORT pattern table
+pattern_input = input("Insert your pattern table file:\n\n")
+print(f'> You entered: {pattern_input}\n\n')
+
+df_pattern = mi.import_pattern_dataframe_plot(data_dir, pattern_input)
+print(df_pattern)
 
 # metadata file
-meta_input = 'list_id0_vaginal_date0.csv'
-# meta_input = input("Insert your metadata file:\n\n")
-# print(f'> You entered: {meta_input}\n\n')
+meta_input = input("Insert your metadata file:\n\n")
+print(f'> You entered: {meta_input}\n\n')
+meta_sep = input('Declare the column separate of your metadata file:\n \
+E.g. , for commas\n')
+print(f'> You entered: {meta_sep}\n\n')
 
 
-# df import
-df_pattern = pd.read_csv(os.path.join(input_dir, pattern_input), header=0, index_col=None)
+metadata = mi.import_metadata(meta_input, data_dir, meta_sep)
+print(metadata)
 
-df_pattern = df_pattern.drop(['Support(%)'], axis=1)
+# output name
+plot_name = input("Insert the name of your output file (will be used for all the plots):\n\n")
+print(f'> You entered: {plot_name}\n\n')
 
-print(df_pattern)
-print(df_pattern.columns)
-
-
-
-## fix path
-df_metadata = pd.read_csv(os.path.join(out_dir, meta_input), header=0, index_col=None)
-print(df_metadata)
-print(df_metadata.columns)
-
-pattern_table = df_pattern.drop(['Samples','Support','Pattern length','All-confidence','Cross-support'], axis=1)
+## save format
+output_format = input('Declare the format for your plots:\n \
+E.g. SVG or HTML\n')
+print(f'> You entered: {output_format}\n\n')
 
 
-# filter samples from metadata
-samples = df_metadata.iloc[:,0].to_list()
-print(samples)
+# create distance matrix
+dis_matrix = mp.calculate_distance_matrix(df_pattern, metadata)
 
-# filter samples from pattern table
-df_filt_pattern = pattern_table[samples]
-print(df_filt_pattern)
-data = df_filt_pattern.to_numpy()
-print(data)
-print(data.shape)
+mp.plot_heatmap(dis_matrix, metadata, data_dir, plot_name, output_format)
+print('Heatmap saved in ' + output_format + ' as ' plot_name + '_heatmap in ' + data_dir + '\n\n')
 
+sys.exit()
 
-#jaccard distance matrix
-data_t = np.transpose(data)
-dis_matrix = pairwise_distances(data_t, metric = 'jaccard')
-
-np.savetxt(os.path.join(input_dir, 'jaccard_dist_matrix.csv'), dis_matrix, delimiter=',', fmt='%1.2f')
-
-print(dis_matrix.shape)
-
-## 0 = identici
-
-dis_heatmap = px.imshow(dis_matrix,
-                x=samples,
-                y=samples)
-dis_heatmap.update_layout(coloraxis_colorbar=dict(
-    title="Jaccard index",
-    tickvals=[0,1],
-    ticktext=["0","1"],
-    lenmode="pixels", len=100,
-))
-
-#dis_heatmap.write_html(os.path.join(input_dir, 'dis_heatmap_prova.html'))
-#fig.show()
-
-
-# heatmap originale
-patterns = pattern_table['Patterns'].to_list()
-
-pattern_heatmap = px.imshow(data,
-                x=samples, y=patterns)
-# pattern_heatmap.update_layout(coloraxis_colorbar=dict(
-#     title="Presence/absence pattern heatmap",
-#     tickvals=[0,1],
-#     ticktext=["0","1"],
-#     lenmode="pixels", len=100,
-# ))
-pattern_heatmap.show()
+# set columns for plotting
+col_to_group = ['Pattern length', 'Support', 'All-confidence']
 
 
 
+# set names
+set_col = mp.set_col_name(plot_name)
+
+
+# PLOTTING HIST
+## create plot
+hist1 = mp.hist_plot(df_pattern, col_to_group1)
+
+## save as SVG and HTML
+mp.save_hist_plot(outputdir, plot, plot_name, format, set_col)
+
+
+# plot scatter1, scatter2 & scatter 3
+
+
+# plot heatmap
 
 sys.exit()
 
 
-#hover_name="country", hover_data=["continent", "pop"]
-# barplot percentuale e non
-# barchart
-# filter samples and patterns from pattern table
-df_filt_pattern = pattern_table[samples]
 
-patterns = pattern_table['Pattern length']
-df_barchart = pd.concat([patterns, df_filt_pattern], axis=1)
-print(df_barchart)
 
-df_barchart_group = df_barchart.groupby(['Pattern length', samples]).size().reset_index(name='Counts')
-barchart = px.bar(df_barchart_group, x=samples, y="Counts", color='Pattern length')
-barchart.show()
 
-# heatmap originale e filtrata
+# figure 2 = scatter2d
+data_2dscatter_1 = df_pattern.groupby(['Support', 'Pattern length']).size().reset_index(name='Counts')
 
-# per la dashboard, posso pensare di evitare grandi plot come la heatmap
-# e lasciare solo i plot di andamento
+data_2dscatter_2 = df_pattern.groupby(['All-confidence', 'Pattern length']).size().reset_index(name='Counts')
+
+#data_2dscatter_3 = df_pattern.groupby(['Cross-support', 'Pattern length']).size().reset_index(name='Counts')
+
+scatter_2d_1 = px.scatter(data_2dscatter_1, x="Pattern length", y="Counts", color="Support")
+scatter_2d_1.update_traces(marker=dict(size=data_2dscatter_1['Pattern length']*5))
+#scatter_2d_1.show()
+
+scatter_2d_2 = px.scatter(data_2dscatter_2, x="Pattern length", y="Counts", color="All-confidence")
+scatter_2d_2.update_traces(marker=dict(size=data_2dscatter_2['Pattern length']*5))
+#scatter_2d_2.show()
+
+# scatter_2d_3 = px.scatter(data_2dscatter_3, x="Pattern length", y="Counts", color="Cross-support")
+# scatter_2d_3.update_traces(marker=dict(size=data_2dscatter_3['Pattern length']*5))
+#scatter_2d_3.show()
+
+
+
+
+
+# figure 3 = scatter3d
+data_3dscatter_1 = df_pattern.groupby(['Support', 'Pattern length','All-confidence']).size().reset_index(name='Counts')
+print(data_3dscatter_1.head())
+# data_3dscatter_2 = df_pattern.groupby(['Support', 'Pattern length','Cross-support']).size().reset_index(name='Counts')
+# print(data_3dscatter_2.head())
+
+scatter3d_1 = px.scatter_3d(data_3dscatter_1, x='Counts', y='Support', z='All-confidence',
+              color='Pattern length')
+# scatter3d_2 = px.scatter_3d(data_3dscatter_2, x='Counts', y='Support', z='Cross-support',
+#               color='Pattern length')
+
+#scatter3d_1.show()
+#scatter3d_1.write_image(os.path.join(input_dir, 'scatter3d_prova.svg'))
+#scatter3d_1.write_html(os.path.join(input_dir, 'scatter3d_prova.html'))
+
+#scatter3d_2.show()

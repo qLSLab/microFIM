@@ -69,6 +69,15 @@ def import_pattern_dataframe_rev(data_dir, output_file):
     return dataframe
 
 
+def import_pattern_dataframe_plot(data_dir, output_file):
+    """
+    """
+    dataframe = pd.read_csv(os.path.join(data_dir, output_file), header=0, index_col=None)
+    dataframe = dataframe.drop(['Support(%)'], axis=1)
+
+    return dataframe
+
+
 def convert_pattern_to_list(string):
     li = list(string.split(", "))
     return li
