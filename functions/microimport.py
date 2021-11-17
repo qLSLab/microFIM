@@ -3,8 +3,11 @@
 import pandas as pd
 import os
 
+
 """ Functions to set import files to run microFIM. For simpilicty, to use this functions
-into a Python script or Python Interpreter, import functions.microimport as mi """
+into a Python script or Python Interpreter, import functions.microimport as mi
+
+"""
 
 
 def import_metadata(metadata, data_dir, sep):
@@ -36,13 +39,9 @@ def itemsets_parameters(input_dir, file_param):
     """
     p = pd.read_csv(os.path.join(input_dir, file_param),  header=0, index_col=None)
 
-    #target = p.iloc[0]['Value']
     minsupp = int(p.iloc[0]['Value'])
     zmin = int(p.iloc[1]['Value'])
     zmax = int(p.iloc[2]['Value'])
-    #report = p.iloc[3]['Value']
-    # è possibile che il report sia identico per tutte
-    # le funzioni e quindi potrei tenerlo anche nell'uso della libreria
 
     return minsupp, zmin, zmax
 
@@ -81,10 +80,3 @@ def import_pattern_dataframe_plot(data_dir, output_file):
 def convert_pattern_to_list(string):
     li = list(string.split(", "))
     return li
-
-
-def import_diversity_parameters():
-    return diversity_parameters
-
-def import_plot_file():
-    return plots
