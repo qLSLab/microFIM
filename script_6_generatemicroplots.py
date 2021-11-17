@@ -17,9 +17,13 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-""" This script produce plotly figures to represent pattern distribution and
-general statistics (TO DO) - removing '#' from .show() command you can directly
-interacts with the plots """
+""" This script produce plotly heatmap based on Jaccard distance matrix.
+Inputs:
+- pattern table
+- metadata
+- plot_name
+- output_format
+"""
 
 
 # set autcompletion
@@ -74,78 +78,40 @@ E.g. SVG or HTML\n')
 print(f'> You entered: {output_format}\n\n')
 
 
-# create distance matrix
+#create distance matrix
 dis_matrix = mp.calculate_distance_matrix(df_pattern, metadata)
 
 mp.plot_heatmap(dis_matrix, metadata, data_dir, plot_name, output_format)
 print('Heatmap saved in ' + output_format + ' as ' plot_name + '_heatmap in ' + data_dir + '\n\n')
 
+
+
 sys.exit()
 
-# set columns for plotting
-col_to_group = ['Pattern length', 'Support', 'All-confidence']
-
-
-
-# set names
 set_col = mp.set_col_name(plot_name)
 
+# set columns for plotting
+cols = ['Pattern length', 'Support', 'All-confidence']
+
+# PLOTTING SCATTER 2D
+col_to_group = 'Support'
+col_to_group1 = 'Support'
+col_to_group2 = 'Pattern length'
 
 # PLOTTING HIST
-## create plot
-hist1 = mp.hist_plot(df_pattern, col_to_group1)
-
-## save as SVG and HTML
+hist = mp.hist_plot(df_pattern, col_to_group)
+# # save as SVG and HTML
 mp.save_hist_plot(outputdir, plot, plot_name, format, set_col)
 
 
-# plot scatter1, scatter2 & scatter 3
+# PLOTTING SCATTER 2D
+scatter_2d = mp.scatter_plot_2d(df_pattern, col_to_group1, col_to_group2)
+mp.save_scatter_2d_plot(data_dir, plot, plot_name, format)
 
 
-# plot heatmap
-
-sys.exit()
-
-
-
-
-
-# figure 2 = scatter2d
-data_2dscatter_1 = df_pattern.groupby(['Support', 'Pattern length']).size().reset_index(name='Counts')
-
-data_2dscatter_2 = df_pattern.groupby(['All-confidence', 'Pattern length']).size().reset_index(name='Counts')
-
-#data_2dscatter_3 = df_pattern.groupby(['Cross-support', 'Pattern length']).size().reset_index(name='Counts')
-
-scatter_2d_1 = px.scatter(data_2dscatter_1, x="Pattern length", y="Counts", color="Support")
-scatter_2d_1.update_traces(marker=dict(size=data_2dscatter_1['Pattern length']*5))
-#scatter_2d_1.show()
-
-scatter_2d_2 = px.scatter(data_2dscatter_2, x="Pattern length", y="Counts", color="All-confidence")
-scatter_2d_2.update_traces(marker=dict(size=data_2dscatter_2['Pattern length']*5))
-#scatter_2d_2.show()
-
-# scatter_2d_3 = px.scatter(data_2dscatter_3, x="Pattern length", y="Counts", color="Cross-support")
-# scatter_2d_3.update_traces(marker=dict(size=data_2dscatter_3['Pattern length']*5))
-#scatter_2d_3.show()
-
-
-
-
-
-# figure 3 = scatter3d
-data_3dscatter_1 = df_pattern.groupby(['Support', 'Pattern length','All-confidence']).size().reset_index(name='Counts')
-print(data_3dscatter_1.head())
-# data_3dscatter_2 = df_pattern.groupby(['Support', 'Pattern length','Cross-support']).size().reset_index(name='Counts')
-# print(data_3dscatter_2.head())
-
-scatter3d_1 = px.scatter_3d(data_3dscatter_1, x='Counts', y='Support', z='All-confidence',
-              color='Pattern length')
-# scatter3d_2 = px.scatter_3d(data_3dscatter_2, x='Counts', y='Support', z='Cross-support',
-#               color='Pattern length')
-
-#scatter3d_1.show()
-#scatter3d_1.write_image(os.path.join(input_dir, 'scatter3d_prova.svg'))
-#scatter3d_1.write_html(os.path.join(input_dir, 'scatter3d_prova.html'))
-
-#scatter3d_2.show()
+# PLOTTING SCATTER 3D
+col_to_group1 = 'Support'
+col_to_group2 = 'Pattern length'
+col_to_group3 = 'All-confidence'
+scatter_3d = mp.scatter_plot_3d(df_pattern, col_to_group1, col_to_group2, col_to_group3)
+mp.save_scatter_2d_plot(data_dir, plot, plot_name, format)
