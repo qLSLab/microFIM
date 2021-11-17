@@ -2,7 +2,6 @@ import pandas as pd
 import plotly.express as px
 import os
 import sys
-import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import readline
@@ -15,10 +14,12 @@ import functions.microimport as mi
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from sklearn.metrics import pairwise_distances #jaccard diss.
+from sklearn.metrics import pairwise_distances
 from sklearn import manifold
 
-# definire funzioni
+
+"""
+"""
 
 
 def calculate_distance_matrix(df_pattern, metadata):
@@ -91,6 +92,56 @@ def save_hist_plot(outputdir, plot, plot_name, format, set_col):
 
     elif format == 'HTML':
         save_name = plot_name + '_' + set_col + '_hist.html'
+        plot.write_image(os.path.join(outputdir, save_name))
+
+    return
+
+
+def scatter_plot_2d(df_pattern, col_to_group1, col_to_group2):
+    """
+    """
+    title = col_to_group1 + ' and ' + col_to_group2 + ' distribution'
+    scatter_df = df_pattern.groupby([col_to_group1, col_to_group2]).size().reset_index(name='Counts')
+    scatter_2d = px.scatter(scatter_df, x=col_to_group1, y="Counts", color=col_to_group2)
+
+    return scatter_2d
+
+
+def save_scatter_2d_plot(outputdir, plot, plot_name, format):
+    """
+    """
+
+    if format == 'SVG':
+        save_name = plot_name + '_hist.svg'
+        plot.write_image(os.path.join(outputdir, save_name))
+
+    elif format == 'HTML':
+        save_name = plot_name + '_hist.html'
+        plot.write_image(os.path.join(outputdir, save_name))
+
+    return
+
+
+def scatter_plot_3d(df_pattern, col_to_group1, col_to_group2, col_to_group3):
+    """
+    """
+    title = col_to_group1 + ' and ' + col_to_group2 + ' and ' + col_to_group3 + ' distribution'
+    scatter_df = df_pattern.groupby([col_to_group1, col_to_group2, col_to_group3]).size().reset_index(name='Counts')
+    scatter3d = px.scatter_3d(scatter_df, x='Counts', y=col_to_group1, z=col_to_group3, color=col_to_group2)
+
+    return scatter_3d
+
+
+def save_scatter_3d_plot(outputdir, plot, plot_name, format):
+    """
+    """
+
+    if format == 'SVG':
+        save_name = plot_name + '_hist.svg'
+        plot.write_image(os.path.join(outputdir, save_name))
+
+    elif format == 'HTML':
+        save_name = plot_name + '_hist.html'
         plot.write_image(os.path.join(outputdir, save_name))
 
     return
