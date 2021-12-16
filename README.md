@@ -3,7 +3,7 @@
 ![alt text](microFIM_framework.jpg)
 
 ## Overview
-**microFim (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis**.
+**microFIM (microbial Frequent Itemset Mining) is a Python tool for the integration of Frequent Itemset Mining approach (also known as Association Rule Mining - ARM) into microbiome pattern analysis**.
 
 The tool is developed to create a bridge between microbial ecology researchers and ARM technique, integrating the common microbiome outputs (in particular, OTU, ESV and taxa table), metadata files typically used in microbiome analysis, and it provides similar microbiome outputs that help scientists to integrate ARM in microbiome pipelines. 
 
@@ -49,7 +49,7 @@ Below, installation, instructions of use and tutorials are provided.
 
 ## Installation
 1. Download Python 3 if you haven’t already at https://www.python.org/
-2. Clone github repository (link: https://github.com/qLSLab/microFim.git) and:
+2. Clone github repository (link: https://github.com/qLSLab/microFIM.git) and:
     * Download ZIP from microFIM github home page, then decompress it\
     or 
     * Use git from command line: `git clone https://github.com/qLSLab/microFim.git`
